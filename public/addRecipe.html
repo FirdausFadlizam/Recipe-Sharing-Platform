@@ -22,63 +22,6 @@
 <html>
 <head>
     <title>Create Recipe</title>
-    <script>
-        let ingredientId = 0;
-
-        function addIngredientField() {
-            const ingredientsDiv = document.getElementById('ingredients');
-            const newDiv = document.createElement('div');
-            newDiv.id = `ingredient-${ingredientId}`;
-
-            const newInput = document.createElement('input');
-            newInput.type = 'text';
-            newInput.name = 'ingredient';
-
-            const newButton = document.createElement('button');
-            newButton.type = "button";
-            newButton.textContent = "Remove ingredient";
-            newButton.onclick = function () {
-                document.getElementById(newDiv.id).remove();
-            };
-
-            newDiv.appendChild(newInput);
-            newDiv.appendChild(newButton);
-            ingredientsDiv.appendChild(newDiv);
-            ingredientId++;
-        }
-
-        function submitRecipe() {
-            const title = document.getElementById('title').value;
-            const instructions = document.getElementById('instructions').value;
-            const user = document.getElementById('user').value;
-            const ingredients = Array.from(document.getElementsByName('ingredient')).map(input => input.value);
-
-            const recipe = {
-                title,
-                instructions,
-                user,
-                ingredients
-            };
-
-            fetch('/createRecipe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(recipe)
-            })
-            .then(response => response.text())
-            .then(text => console.log(text))
-            .catch(error => console.error(error));
-        }
-
-        window.onload = function() {
-            document.getElementById('recipeForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                submitRecipe();
-            });
-        }
-    </script>
 </head>
 <body>
     <h1>Create a new recipe</h1>
@@ -93,10 +36,97 @@
             </div>
         </div>
         <button type="button" onclick="addIngredientField()">Add Ingredient</button><br>
-        <label for="instructions">Instructions:</label><br>
-        <textarea id="instructions" required></textarea><br>
+        <label>Instructions:</label><br>
+        <div id="instructionsDiv">
+            <div id="instruction-0">
+                <textarea name="instruction" required></textarea>
+                <button type="button" onclick="this.parentElement.remove()">Remove instruction</button><br>
+            </div>
+        </div>
+        <button type="button" onclick="addInstructionField()">Add Instruction</button><br>
         <input type="hidden" id="user" value="65748e945441b65b7455a7a0">
         <input type="submit" value="Create Recipe">
     </form>
+
+    <script>
+      let ingredientId = 0;
+
+      function addIngredientField() {
+          const ingredientsDiv = document.getElementById('ingredients');
+          const newDiv = document.createElement('div');
+          newDiv.id = `ingredient-${ingredientId}`;
+
+          const newInput = document.createElement('input');
+          newInput.type = 'text';
+          newInput.name = 'ingredient';
+
+          const newButton = document.createElement('button');
+          newButton.type = "button";
+          newButton.textContent = "Remove ingredient";
+          newButton.onclick = function () {
+              document.getElementById(newDiv.id).remove();
+          };
+
+          newDiv.appendChild(newInput);
+          newDiv.appendChild(newButton);
+          ingredientsDiv.appendChild(newDiv);
+          ingredientId++;
+      }
+
+      let instructionId = 0;
+
+      function addInstructionField() {
+          const instructionsDiv = document.getElementById('instructionsDiv');
+          const newDiv = document.createElement('div');
+          newDiv.id = `instruction-${instructionId}`;
+
+          const newInput = document.createElement('textarea');
+          newInput.name = 'instruction';
+
+          const newButton = document.createElement('button');
+          newButton.type = "button";
+          newButton.textContent = "Remove instruction";
+          newButton.onclick = function () {
+              document.getElementById(newDiv.id).remove();
+          };
+
+          newDiv.appendChild(newInput);
+          newDiv.appendChild(newButton);
+          instructionsDiv.appendChild(newDiv);
+          instructionId++;
+      }
+
+      function submitRecipe() {
+        const title = document.getElementById('title').value;
+        const user = document.getElementById('user').value;
+        const ingredients = Array.from(document.getElementsByName('ingredient')).map(input => input.value);
+        const instructions = Array.from(document.getElementsByName('instruction')).map(input => input.value);
+
+        const recipe = {
+            title,
+            instructions,
+            user,
+            ingredients
+        };
+
+          fetch('/createRecipe', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(recipe)
+          })
+          .then(response => response.text())
+          .then(text => console.log(text))
+          .catch(error => console.error(error));
+      }
+
+      window.onload = function() {
+          document.getElementById('recipeForm').addEventListener('submit', function(event) {
+              event.preventDefault();
+              submitRecipe();
+          });
+      }
+  </script>
 </body>
 </html>
