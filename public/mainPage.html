@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Sharing PLatform</title>
+</head>
+<body>
+    <h1>List of All Recipes</h1>
+    <div id="recipes">
+        <!-- Recipes will be inserted here -->
+    </div>
+
+    <script>
+        window.onload = function() {
+            fetch('http://localhost:3000/recipes')
+                .then(response => response.json())
+                .then(data => {
+                    const recipesDiv = document.getElementById('recipes');
+                    data.forEach(recipe => {
+                        const recipeParagraph = document.createElement('p');
+                        recipeParagraph.textContent = `Title: ${recipe.title}, Ingredients: ${recipe.ingredients}, Instructions: ${recipe.instructions}`;
+                        recipesDiv.appendChild(recipeParagraph);
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
