@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema(
 
     {
         timestamps: true
-    });//end of the Product Schema prototype/object
+    });//end of the User Schema prototype
 
     const User = mongoose.model('User', userSchema);
 
