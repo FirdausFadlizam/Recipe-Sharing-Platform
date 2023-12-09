@@ -24,6 +24,12 @@
     <title>Create Recipe</title>
 </head>
 <body>
+
+    <h1>Your Recipes</h1>
+    <div id="userRecipes"></div>
+
+    <hr/>
+
     <h1>Create a new recipe</h1>
     <form id="recipeForm">
         <label for="title">Recipe Title:</label><br>
@@ -49,6 +55,42 @@
     </form>
 
     <script>
+      const currentUserId = '65748e945441b65b7455a7a0'; // replace this with logic to get current logged-in user's id
+
+      function getRecipes() {
+          fetch('http://localhost:3000/recipes')
+          .then(response => response.json())
+          .then(data => {
+              const userRecipesDiv = document.getElementById('userRecipes');
+              data.forEach(recipe => {
+                  if (recipe.user === currentUserId) {
+                      const recipeParagraph = document.createElement('p');
+                      let ingredients = recipe.ingredients.join(", ");
+                      let instructions = recipe.instructions.join(". ");
+                      recipeParagraph.textContent = `Title: ${recipe.title}, Ingredients: ${ingredients}, Instructions: ${instructions}`;
+
+                      const editButton = document.createElement('button');
+                      editButton.textContent = 'Edit';
+                      editButton.onclick = function() {
+                          // Logic to handle editing the recipe...
+                      };
+
+                      const deleteButton = document.createElement('button');
+                      deleteButton.textContent = 'Delete';
+                      deleteButton.onclick = function() {
+                          // Logic to handle deleting the recipe...
+                      };
+
+                      userRecipesDiv.appendChild(recipeParagraph);
+                      userRecipesDiv.appendChild(editButton);
+                      userRecipesDiv.appendChild(deleteButton);
+                  }
+              });
+          })
+          .catch(error => console.error(error));
+      }
+
+      
       let ingredientId = 0;
 
       function addIngredientField() {
@@ -126,6 +168,7 @@
               event.preventDefault();
               submitRecipe();
           });
+          getRecipes();
       }
   </script>
 </body>
