@@ -62,6 +62,12 @@
           .then(response => response.json())
           .then(data => {
               const userRecipesDiv = document.getElementById('userRecipes');
+
+              // Clear out the previous list of recipes
+              while (userRecipesDiv.firstChild) {
+                  userRecipesDiv.removeChild(userRecipesDiv.firstChild);
+              }
+
               data.forEach(recipe => {
                   if (recipe.user === currentUserId) {
                       const recipeParagraph = document.createElement('p');
@@ -77,9 +83,7 @@
 
                       const deleteButton = document.createElement('button');
                       deleteButton.textContent = 'Delete';
-                      deleteButton.onclick = function() {
-                          // Logic to handle deleting the recipe...
-                      };
+                      deleteButton.onclick = function() { deleteRecipe(recipe._id); };
 
                       userRecipesDiv.appendChild(recipeParagraph);
                       userRecipesDiv.appendChild(editButton);
@@ -159,8 +163,32 @@
               body: JSON.stringify(recipe)
           })
           .then(response => response.text())
-          .then(text => console.log(text))
+          .then(text => {
+              console.log(text);
+
+              // call getRecipes to update the recipe list
+              location.reload();
+          })
           .catch(error => console.error(error));
+      }
+
+      function deleteRecipe(id) {
+          fetch(`http://localhost:3000/deleteRecipe/${id}`, {
+              method: 'DELETE',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  user: currentUserId
+              })
+          })
+          .then(res => res.json())
+          .then(data => {
+              console.log(data);
+              // We will want to re-fetch the recipes after one is deleted
+              getRecipes();
+          })
+          .catch(err => console.error(err));
       }
 
       window.onload = function() {

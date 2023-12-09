@@ -72,9 +72,21 @@ app.post("/createRecipe", async (req, res) => {
     }
 });
 
+app.delete("/deleteRecipe/:id", async (req, res) => {
+    try {
+        const recipe = await Recipe.findOneAndDelete({_id: req.params.id, user: req.body.user});
 
+        if (!recipe) {
+            res.status(404).json({message: "No recipe found or user not authorized to delete this recipe"});
+            return;
+        }
 
-
+        res.status(200).json({message: "Recipe deleted successfully"});
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+});
 
 
 //Mongoose connection
