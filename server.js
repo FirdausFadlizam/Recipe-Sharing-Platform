@@ -88,7 +88,26 @@ app.delete("/deleteRecipe/:id", async (req, res) => {
     }
 });
 
-
+app.put('/updateRecipes/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const updatedRecipe = await Recipe.findByIdAndUpdate(
+        { _id: id},
+        req.body,
+        { new: true, runValidators: true }
+      );
+  
+      if (!updatedRecipe) {
+        return res.status(404).json({ error: 'Recipe not found' });
+      }
+  
+      res.status(200).json(updatedRecipe);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+  
 //Mongoose connection
 mongoose.connect('mongodb+srv://user:pa55word@cis435-project4-cluster.msmyrbb.mongodb.net/Node-API')
     .then(() => {

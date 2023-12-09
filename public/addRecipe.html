@@ -20,15 +20,32 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Create Recipe</title>
 </head>
+
 <body>
 
     <h1>Your Recipes</h1>
     <div id="userRecipes"></div>
 
-    <hr/>
+    <hr />
+    <form id="updateForm" style="display: none">
+        <label for="title">Recipe Title:</label><br>
+        <input type="text" id="updateTitle" value="Initial Value" required><br>
+        <label>Ingredients:</label><br>
+        <div id="updateIngredients">
+        </div>
+        <button type="button" onclick="addUpdateIngredientField()">Add Ingredient</button><br>
+        <label>Instructions:</label><br>
+        <div id="updateInstructionsDiv">
+        </div>
+        <button type="button" onclick="addUpdateInstructionField()">Add Instruction</button><br>
+        <input type="hidden" id="user" value="65748e945441b65b7455a7a0">
+        <input type="submit" onclick="" id="submitUpdate" value="Submit Recipe">
+    </form>
+    <hr />
 
     <h1>Create a new recipe</h1>
     <form id="recipeForm">
@@ -45,7 +62,7 @@
         <label>Instructions:</label><br>
         <div id="instructionsDiv">
             <div id="instruction-0">
-                <textarea name="instruction" required></textarea>
+                <textarea name="instruction" value="Initial Value" required></textarea>
                 <button type="button" onclick="this.parentElement.remove()">Remove instruction</button><br>
             </div>
         </div>
@@ -55,149 +72,259 @@
     </form>
 
     <script>
-      const currentUserId = '65748e945441b65b7455a7a0'; // replace this with logic to get current logged-in user's id
+        const currentUserId = '65748e945441b65b7455a7a0'; // replace this with logic to get current logged-in user's id
 
-      function getRecipes() {
-          fetch('http://localhost:3000/recipes')
-          .then(response => response.json())
-          .then(data => {
-              const userRecipesDiv = document.getElementById('userRecipes');
+        function getRecipes() {
+            fetch('http://localhost:3000/recipes')
+                .then(response => response.json())
+                .then(data => {
+                    const userRecipesDiv = document.getElementById('userRecipes');
 
-              // Clear out the previous list of recipes
-              while (userRecipesDiv.firstChild) {
-                  userRecipesDiv.removeChild(userRecipesDiv.firstChild);
-              }
+                    // Clear out the previous list of recipes
+                    while (userRecipesDiv.firstChild) {
+                        userRecipesDiv.removeChild(userRecipesDiv.firstChild);
+                    }
 
-              data.forEach(recipe => {
-                  if (recipe.user === currentUserId) {
-                      const recipeParagraph = document.createElement('p');
-                      let ingredients = recipe.ingredients.join(", ");
-                      let instructions = recipe.instructions.join(". ");
-                      recipeParagraph.textContent = `Title: ${recipe.title}, Ingredients: ${ingredients}, Instructions: ${instructions}`;
+                    data.forEach(recipe => {
+                        if (recipe.user === currentUserId) {
+                            const recipeParagraph = document.createElement('p');
+                            let ingredients = recipe.ingredients.join(", ");
+                            let instructions = recipe.instructions.join(". ");
+                            recipeParagraph.textContent = `Title: ${recipe.title}, Ingredients: ${ingredients}, Instructions: ${instructions}`;
 
-                      const editButton = document.createElement('button');
-                      editButton.textContent = 'Edit';
-                      editButton.onclick = function() {
-                          // Logic to handle editing the recipe...
-                      };
+                            const editButton = document.createElement('button');
+                            editButton.textContent = 'Edit';
+                            editButton.onclick = function () {
+                                updateRecipe(recipe._id, recipe.title, recipe.ingredients, recipe.instructions);
+                            };
 
-                      const deleteButton = document.createElement('button');
-                      deleteButton.textContent = 'Delete';
-                      deleteButton.onclick = function() { deleteRecipe(recipe._id); };
+                            const deleteButton = document.createElement('button');
+                            deleteButton.textContent = 'Delete';
+                            deleteButton.onclick = function () { deleteRecipe(recipe._id); };
 
-                      userRecipesDiv.appendChild(recipeParagraph);
-                      userRecipesDiv.appendChild(editButton);
-                      userRecipesDiv.appendChild(deleteButton);
-                  }
-              });
-          })
-          .catch(error => console.error(error));
-      }
+                            userRecipesDiv.appendChild(recipeParagraph);
+                            userRecipesDiv.appendChild(editButton);
+                            userRecipesDiv.appendChild(deleteButton);
+                        }
+                    });
+                })
+                .catch(error => console.error(error));
+        }
 
-      
-      let ingredientId = 0;
 
-      function addIngredientField() {
-          const ingredientsDiv = document.getElementById('ingredients');
-          const newDiv = document.createElement('div');
-          newDiv.id = `ingredient-${ingredientId}`;
+        let updateIngredientId = 0;
+        let updateIngredientId2 = 0;
 
-          const newInput = document.createElement('input');
-          newInput.type = 'text';
-          newInput.name = 'ingredient';
+        function addUpdateIngredientField() {
 
-          const newButton = document.createElement('button');
-          newButton.type = "button";
-          newButton.textContent = "Remove ingredient";
-          newButton.onclick = function () {
-              document.getElementById(newDiv.id).remove();
-          };
+            const ingredientsDiv = document.getElementById('updateIngredients');
+            const newDiv = document.createElement('div');
+            newDiv.id = `updateIngre-${updateIngredientId}`;
 
-          newDiv.appendChild(newInput);
-          newDiv.appendChild(newButton);
-          ingredientsDiv.appendChild(newDiv);
-          ingredientId++;
-      }
+            const newInput = document.createElement('input');
+            newInput.id = `updateIngredient-${updateIngredientId}`;
+            newInput.type = 'text';
+            newInput.name = 'updateIngredient';
 
-      let instructionId = 0;
+            const newButton = document.createElement('button');
+            newButton.type = "button";
+            newButton.textContent = "Remove ingredient";
+            newButton.onclick = function () {
+                document.getElementById(newDiv.id).remove();
+            };
 
-      function addInstructionField() {
-          const instructionsDiv = document.getElementById('instructionsDiv');
-          const newDiv = document.createElement('div');
-          newDiv.id = `instruction-${instructionId}`;
+            newDiv.appendChild(newInput);
+            newDiv.appendChild(newButton);
+            ingredientsDiv.appendChild(newDiv);
+            updateIngredientId++;
+        }
 
-          const newInput = document.createElement('textarea');
-          newInput.name = 'instruction';
+        function updateRecipe(recipeID, title, ingredients, instructions) {
+            var recipeForm = document.getElementById('updateForm');
+            recipeForm.style.display = "block";
+            document.getElementById('updateIngredients').innerHTML = "";
+            document.getElementById('updateInstructionsDiv').innerHTML = "";
+            recipeForm.reset();
 
-          const newButton = document.createElement('button');
-          newButton.type = "button";
-          newButton.textContent = "Remove instruction";
-          newButton.onclick = function () {
-              document.getElementById(newDiv.id).remove();
-          };
+            var titleCont = document.getElementById('updateTitle');
+            titleCont.value = title;
 
-          newDiv.appendChild(newInput);
-          newDiv.appendChild(newButton);
-          instructionsDiv.appendChild(newDiv);
-          instructionId++;
-      }
+            for (let i = 0; i < ingredients.length; i++) {
+                addUpdateIngredientField();
+                var ingredientText = document.getElementById(`updateIngredient-${updateIngredientId2}`);
+                ingredientText.value = ingredients[i];
+                updateIngredientId2++;
+            }
+            for (let i = 0; i < instructions.length; i++) {
+                addUpdateInstructionField();
+                var instructionText = document.getElementById(`updateInstruction-${updateInstructionId2}`);
+                instructionText.value = instructions[i];
+                updateInstructionId2++;
+            }
+            document.getElementById('submitUpdate').onclick = function () { submitUpdatedRecipe(recipeID); };
 
-      function submitRecipe() {
-        const title = document.getElementById('title').value;
-        const user = document.getElementById('user').value;
-        const ingredients = Array.from(document.getElementsByName('ingredient')).map(input => input.value);
-        const instructions = Array.from(document.getElementsByName('instruction')).map(input => input.value);
 
-        const recipe = {
-            title,
-            instructions,
-            user,
-            ingredients
-        };
+        }
 
-          fetch('/createRecipe', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(recipe)
-          })
-          .then(response => response.text())
-          .then(text => {
-              console.log(text);
+        function submitUpdatedRecipe(recipeID) {
+            const title = document.getElementById('updateTitle').value;
+            const ingredients = Array.from(document.getElementsByName('updateIngredient')).map(input => input.value);
+            const instructions = Array.from(document.getElementsByName('updateInstruction')).map(input => input.value);
 
-              // call getRecipes to update the recipe list
-              location.reload();
-          })
-          .catch(error => console.error(error));
-      }
+            const recipe = {
+                title,
+                ingredients,
+                instructions,
+            };
 
-      function deleteRecipe(id) {
-          fetch(`http://localhost:3000/deleteRecipe/${id}`, {
-              method: 'DELETE',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                  user: currentUserId
-              })
-          })
-          .then(res => res.json())
-          .then(data => {
-              console.log(data);
-              // We will want to re-fetch the recipes after one is deleted
-              getRecipes();
-          })
-          .catch(err => console.error(err));
-      }
+            console.log(recipeID);
+            fetch(`/updateRecipes/${recipeID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(recipe)
+            })
+                .then(response => response.text())
+                .then(text => {
+                    console.log(text);
+                    // call getRecipes to update the recipe list
 
-      window.onload = function() {
-          document.getElementById('recipeForm').addEventListener('submit', function(event) {
-              event.preventDefault();
-              submitRecipe();
-          });
-          getRecipes();
-      }
-  </script>
+                })
+                .catch(error => console.error(error));
+
+        }
+
+        function addIngredientField() {
+
+            const ingredientsDiv = document.getElementById('ingredients');
+            const newDiv = document.createElement('div');
+            newDiv.id = `ingredient-${ingredientId}`;
+
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'ingredient';
+
+            const newButton = document.createElement('button');
+            newButton.type = "button";
+            newButton.textContent = "Remove ingredient";
+            newButton.onclick = function () {
+                document.getElementById(newDiv.id).remove();
+            };
+
+            newDiv.appendChild(newInput);
+            newDiv.appendChild(newButton);
+            ingredientsDiv.appendChild(newDiv);
+            ingredientId++;
+        }
+
+        let updateInstructionId = 0;
+        let updateInstructionId2 = 0;
+
+
+        function addUpdateInstructionField() {
+            const instructionsDiv = document.getElementById('updateInstructionsDiv');
+            const newDiv = document.createElement('div');
+            newDiv.id = `updateIns-${updateInstructionId}`;
+
+            const newInput = document.createElement('textarea');
+            newInput.name = 'updateInstruction';
+            newInput.id = `updateInstruction-${updateInstructionId}`;
+
+            const newButton = document.createElement('button');
+            newButton.type = "button";
+            newButton.textContent = "Remove instruction";
+            newButton.onclick = function () {
+                document.getElementById(newDiv.id).remove();
+            };
+
+            newDiv.appendChild(newInput);
+            newDiv.appendChild(newButton);
+            instructionsDiv.appendChild(newDiv);
+            updateInstructionId++;
+        }
+
+        let instructionId = 0;
+
+        function addInstructionField() {
+            const instructionsDiv = document.getElementById('instructionsDiv');
+            const newDiv = document.createElement('div');
+            newDiv.id = `instruction-${instructionId}`;
+
+            const newInput = document.createElement('textarea');
+            newInput.name = 'instruction';
+
+            const newButton = document.createElement('button');
+            newButton.type = "button";
+            newButton.textContent = "Remove instruction";
+            newButton.onclick = function () {
+                document.getElementById(newDiv.id).remove();
+            };
+
+            newDiv.appendChild(newInput);
+            newDiv.appendChild(newButton);
+            instructionsDiv.appendChild(newDiv);
+            instructionId++;
+        }
+
+        function submitRecipe() {
+            const title = document.getElementById('title').value;
+            const user = document.getElementById('user').value;
+            const ingredients = Array.from(document.getElementsByName('ingredient')).map(input => input.value);
+            const instructions = Array.from(document.getElementsByName('instruction')).map(input => input.value);
+
+            const recipe = {
+                title,
+                instructions,
+                user,
+                ingredients
+            };
+
+            fetch('/createRecipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(recipe)
+            })
+                .then(response => response.text())
+                .then(text => {
+                    console.log(text);
+
+                    // call getRecipes to update the recipe list
+                    location.reload();
+                })
+                .catch(error => console.error(error));
+        }
+
+        function deleteRecipe(id) {
+            fetch(`http://localhost:3000/deleteRecipe/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user: currentUserId
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    // We will want to re-fetch the recipes after one is deleted
+                    getRecipes();
+                })
+                .catch(err => console.error(err));
+        }
+
+
+        window.onload = function () {
+            document.getElementById('recipeForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                submitRecipe();
+            });
+            getRecipes();
+        }
+    </script>
 </body>
+
 </html>
