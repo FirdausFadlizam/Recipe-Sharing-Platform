@@ -10,11 +10,11 @@ const recipeSchema = mongoose.Schema(
             required: [true, "Please enter a recipe title"]
         },
         ingredients: {
-            type: String,
+            type: [String],
             required: true
         },
         instructions: {
-            type: String,
+            type: [String],
             required: [true, "Please enter steps for recipe"]
         },
         user: {
