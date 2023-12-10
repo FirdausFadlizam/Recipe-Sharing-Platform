@@ -25,8 +25,10 @@ function handleLoginButton() {
             return response.json();
         })
         .then(jsonObject => {
-            if (jsonObject.success) {
+            if (jsonObject) {
                 outputSpan.innerHTML = "Logged in successfully";
+                sessionStorage.setItem('userID', jsonObject._id);
+                window.location.href ='mainPage.html';
             } else {
                 outputSpan.innerHTML = "Wrong username or password";
             }

@@ -36,7 +36,7 @@ app.get('/login', async (req, res) => {
         const user = await User.findOne({ username, password });
 
         if (user) {
-            res.status(200).json({ success: true });
+            res.status(200).json(user);
         } else {
             res.status(401).json({ success: false });
         }
