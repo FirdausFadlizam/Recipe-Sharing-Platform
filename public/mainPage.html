@@ -17,18 +17,16 @@
 
     <script>
         window.onload = function() {
-
+            
             const nameSection = document.getElementById('userName');
             nameSection.innerHTML = "Hello, " + sessionStorage.getItem('name');
-
             fetch('http://localhost:3000/recipes')
                 .then(response => response.json())
                 .then(data => {
                     const recipesDiv = document.getElementById('recipes');
                     data.forEach(recipe => {
                         const recipeParagraph = document.createElement('p');
-                        recipeParagraph.textContent = `Title: ${recipe.title}`; //Display only title here
-
+                        recipeParagraph.textContent = `Title: ${recipe.title}` ; //Display only title here
                         const viewButton = document.createElement('button');
                         viewButton.textContent = 'View Recipe';
                         // Allows the button to redirect to specificRecipe.html with the recipe id as a query parameter
@@ -36,7 +34,9 @@
                             window.location.href = `specificRecipe.html?id=${recipe._id}`;
                             
                         };
-
+                        const imageFile = document.createElement('img');
+                        imageFile.src = recipe.image;
+                        recipesDiv.appendChild(imageFile);
                         recipesDiv.appendChild(recipeParagraph);
                         recipesDiv.appendChild(viewButton);
                         

@@ -10,15 +10,17 @@
 <body>
     <button onclick="navigatePage()">Main Page</button>
     <h1>Recipe Details</h1>
-    <button id="favoriteRecipe" onclick="addFav()">Save this recipe</button>
+    <div id="favButton" style="display:block"><button id="favoriteRecipe" onclick="addFav()">Save this recipe</button></div>
+    <div id="removeFavButton" style="display:none"><button id="removeFavoriteRecipe"  onclick="deleteFav()">Remove this recipe</button></div>
     <div id="recipeDetails"></div>
 
     <script>
         var id;
-        window.onload = function () {
+        window.onload = async function () {
             const urlParams = new URLSearchParams(window.location.search);
             id = urlParams.get('id');
-            fetch(`http://localhost:3000/recipes/${id}`)
+            getFavRecipes();
+            await fetch(`http://localhost:3000/recipes/${id}`)
                 .then(response => response.json())
                 .then(recipe => {
                     const recipeDiv = document.getElementById('recipeDetails');
@@ -36,7 +38,32 @@
                     recipeDiv.appendChild(instructions);
                 })
                 .catch(error => console.error(error));
+                
+
         }
+
+        function getFavRecipes(){
+            let currentUserId = sessionStorage.getItem('userId');
+            fetch(`http://localhost:3000/getFavRecipes?user=${currentUserId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const recipesDiv = document.getElementById('userFavRecipes');
+                    data.forEach(recipe => {
+                        
+                      if(recipe._id == id){
+                        document.getElementById('removeFavButton').style.display = "block";
+                        document.getElementById('favButton').style.display = "none";
+
+                      }
+
+                        
+                    });
+                
+                })
+                .catch(error => console.error(error));   
+        }
+
+        
 
         function addFav() {
             const favRecipe = {
@@ -54,8 +81,34 @@
                 .then(text => {
                     console.log(text);
 
+                    document.getElementById('favButton').style.display = "none";
+                    document.getElementById('removeFavButton').style.display = "block";
                     // call getRecipes to update the recipe list
-                    location.reload();
+                   
+                })
+                .catch(error => console.error(error));
+
+        }
+
+        function deleteFav(){
+            const favRecipe = {
+                user: sessionStorage.getItem('userId'),
+                recipe: id
+            }
+            fetch('/deleteFavRecipe', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(favRecipe)
+            })
+                .then(response => response.text())
+                .then(text => {
+                    console.log(text);
+
+                    document.getElementById('favButton').style.display = "block";
+                    document.getElementById('removeFavButton').style.display = "none";
+                    // call getRecipes to update the recipe list
                 })
                 .catch(error => console.error(error));
 

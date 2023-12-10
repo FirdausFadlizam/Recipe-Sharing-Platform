@@ -21,6 +21,10 @@ const recipeSchema = mongoose.Schema(
             type: Schema.Types.ObjectID,
             ref: "User",
             required: true
+        },
+        image: {
+            type: String,
+            required: true
         }
         
     }, 

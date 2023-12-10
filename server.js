@@ -99,6 +99,18 @@ app.post("/addFavRecipe", async (req, res) => {
     }
 });
 
+app.delete("/deleteFavRecipe", async (req, res) => {
+    try {
+        const recipe = await favRecipe.findOneAndDelete(req.body);
+
+        res.status(200).json(recipe);
+    }
+    catch(error){
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+});
+
 app.get('/getFavRecipes', async (req, res) => {
     try {
         const{user} = req.query;

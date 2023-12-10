@@ -46,6 +46,8 @@
         </div>
         <button type="button" onclick="addUpdateInstructionField()">Add Instruction</button><br>
         <input type="hidden" id="user" value="65748e945441b65b7455a7a0">
+        <label for="title">Image Link:</label><br>
+        <input type="text" id="updateImageLink" value="" required><br>
         <input type="submit" onclick="" id="submitUpdate" value="Submit Recipe">
     </form>
     <hr />
@@ -70,6 +72,8 @@
             </div>
         </div>
         <button type="button" onclick="addInstructionField()">Add Instruction</button><br>
+        <label for="title">Image Link:</label><br>
+        <input type="text" id="imageLink" value="" required><br>
         <input type="hidden" id="user" value="65748e945441b65b7455a7a0">
         <input type="submit" value="Create Recipe">
     </form>
@@ -93,12 +97,12 @@
                             const recipeParagraph = document.createElement('p');
                             let ingredients = recipe.ingredients.join(", ");
                             let instructions = recipe.instructions.join(". ");
-                            recipeParagraph.textContent = `Title: ${recipe.title}, Ingredients: ${ingredients}, Instructions: ${instructions}`;
+                            recipeParagraph.textContent = `Title: ${recipe.title}, Ingredients: ${ingredients}, Instructions: ${instructions}, Image Link: ${recipe.image}`;
 
                             const editButton = document.createElement('button');
                             editButton.textContent = 'Edit';
                             editButton.onclick = function () {
-                                updateRecipe(recipe._id, recipe.title, recipe.ingredients, recipe.instructions);
+                                updateRecipe(recipe._id, recipe.title, recipe.ingredients, recipe.instructions,recipe.image);
                             };
 
                             const deleteButton = document.createElement('button');
@@ -142,7 +146,7 @@
             updateIngredientId++;
         }
 
-        function updateRecipe(recipeID, title, ingredients, instructions) {
+        function updateRecipe(recipeID, title, ingredients, instructions, image) {
             var recipeForm = document.getElementById('updateForm');
             recipeForm.style.display = "block";
             document.getElementById('updateIngredients').innerHTML = "";
@@ -151,6 +155,8 @@
 
             var titleCont = document.getElementById('updateTitle');
             titleCont.value = title;
+            var imageFile = document.getElementById('updateImageLink');
+            imageFile.value = image;
 
             for (let i = 0; i < ingredients.length; i++) {
                 addUpdateIngredientField();
@@ -173,11 +179,13 @@
             const title = document.getElementById('updateTitle').value;
             const ingredients = Array.from(document.getElementsByName('updateIngredient')).map(input => input.value);
             const instructions = Array.from(document.getElementsByName('updateInstruction')).map(input => input.value);
+            const image = document.getElementById('updateImageLink').value;
 
             const recipe = {
                 title,
                 ingredients,
                 instructions,
+                image
             };
 
             console.log(recipeID);
@@ -273,6 +281,7 @@
 
         function submitRecipe() {
             const title = document.getElementById('title').value;
+            const image = document.getElementById('imageLink').value;
             const user = currentUserId;
             const ingredients = Array.from(document.getElementsByName('ingredient')).map(input => input.value);
             const instructions = Array.from(document.getElementsByName('instruction')).map(input => input.value);
@@ -281,7 +290,8 @@
                 title,
                 instructions,
                 user,
-                ingredients
+                ingredients,
+                image
             };
 
             fetch('/createRecipe', {
@@ -326,10 +336,11 @@
                 .then(response => response.json())
                 .then(data => {
                     const recipesDiv = document.getElementById('userFavRecipes');
+                    let recipeId = [];
                     data.forEach(recipe => {
                         const recipeParagraph = document.createElement('p');
                         recipeParagraph.textContent = `Title: ${recipe.title}`; //Display only title here
-
+                        recipeId.push({id : recipe._id});
                         const viewButton = document.createElement('button');
                         viewButton.textContent = 'View Recipe';
                         // Allows the button to redirect to specificRecipe.html with the recipe id as a query parameter
@@ -342,6 +353,8 @@
                         recipesDiv.appendChild(viewButton);
                         
                     });
+
+                
                 })
                 .catch(error => console.error(error));   
         }
