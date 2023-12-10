@@ -7,6 +7,9 @@
 </head>
 <body>
     <button onclick="navigatePage()">Dashboard</button>
+    <div id="user">
+        <h1 id="userName"></h1>
+    </div>
     <h1>List of All Recipes</h1>
     <div id="recipes">
         <!-- Recipes will be inserted here -->
@@ -14,6 +17,10 @@
 
     <script>
         window.onload = function() {
+
+            const nameSection = document.getElementById('userName');
+            nameSection.innerHTML = "Hello, " + sessionStorage.getItem('name');
+
             fetch('http://localhost:3000/recipes')
                 .then(response => response.json())
                 .then(data => {
