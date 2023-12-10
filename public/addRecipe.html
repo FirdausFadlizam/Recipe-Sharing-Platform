@@ -26,7 +26,7 @@
 </head>
 
 <body>
-
+    <button onclick="navigatePage()">Main Page</button>
     <h1>Your Recipes</h1>
     <div id="userRecipes"></div>
     <hr/>
@@ -346,6 +346,10 @@
                 .catch(error => console.error(error));   
         }
 
+        function navigatePage() {
+            window.location.href = 'mainPage.html';
+        }
+        
         window.onload = function () {
             document.getElementById('recipeForm').addEventListener('submit', function (event) {
                 event.preventDefault();

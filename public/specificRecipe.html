@@ -1,46 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe</title>
 </head>
+
 <body>
+    <button onclick="navigatePage()">Main Page</button>
     <h1>Recipe Details</h1>
     <button id="favoriteRecipe" onclick="addFav()">Save this recipe</button>
     <div id="recipeDetails"></div>
 
     <script>
         var id;
-      window.onload = function() {
-          const urlParams = new URLSearchParams(window.location.search);
-          id = urlParams.get('id');
-          fetch(`http://localhost:3000/recipes/${id}`)
-            .then(response => response.json())
-            .then(recipe => {
-                const recipeDiv = document.getElementById('recipeDetails');
-            
-                const title = document.createElement('h2');
-                title.textContent = `Title: ${recipe.title}`;
-                recipeDiv.appendChild(title);
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            id = urlParams.get('id');
+            fetch(`http://localhost:3000/recipes/${id}`)
+                .then(response => response.json())
+                .then(recipe => {
+                    const recipeDiv = document.getElementById('recipeDetails');
 
-                const ingredients = document.createElement('p');
-                ingredients.textContent = `Ingredients: ${recipe.ingredients.join(", ")}`;
-                recipeDiv.appendChild(ingredients);
+                    const title = document.createElement('h2');
+                    title.textContent = `Title: ${recipe.title}`;
+                    recipeDiv.appendChild(title);
 
-                const instructions = document.createElement('p');
-                instructions.textContent = `Instructions: ${recipe.instructions.join(". ")}`;
-                recipeDiv.appendChild(instructions);
-            })
-            .catch(error => console.error(error));
-      }
+                    const ingredients = document.createElement('p');
+                    ingredients.textContent = `Ingredients: ${recipe.ingredients.join(", ")}`;
+                    recipeDiv.appendChild(ingredients);
 
-      function addFav(){
-        const favRecipe = {
-            user: sessionStorage.getItem('userId'),
-            recipe: id
+                    const instructions = document.createElement('p');
+                    instructions.textContent = `Instructions: ${recipe.instructions.join(". ")}`;
+                    recipeDiv.appendChild(instructions);
+                })
+                .catch(error => console.error(error));
         }
-        fetch('/addFavRecipe', {
+
+        function addFav() {
+            const favRecipe = {
+                user: sessionStorage.getItem('userId'),
+                recipe: id
+            }
+            fetch('/addFavRecipe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,9 +58,14 @@
                     location.reload();
                 })
                 .catch(error => console.error(error));
-            
-            }
+
+        }
+
+        function navigatePage() {
+            window.location.href = 'mainPage.html';
+        }
     </script>
 
 </body>
+
 </html>
