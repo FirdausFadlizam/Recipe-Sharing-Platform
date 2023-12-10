@@ -1,29 +1,31 @@
 const mongoose = require('mongoose');
 
-
 //first is the schema
 //second is the timestamps boolean variable
 const userSchema = mongoose.Schema(
     {
-        name: {
+        username: {
             type: String,
-            required:true
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true
+            required: true
         },
         password: {
             type: String,
+            required: true,
+        },
+        fName: {
+            type: String,
+            required: true
+        },
+        lName: {
+            type: String,
             required: true
         }
-        
-    }, 
-    
+    },
+
     {
         timestamps: true
-    });//end of recipe schema prototype/object
+    });//end of the User Schema prototype
 
     const User = mongoose.model('User', userSchema);
+
     module.exports = User;
