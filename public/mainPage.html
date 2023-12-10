@@ -6,6 +6,7 @@
     <title>Recipe Sharing Platform</title>
 </head>
 <body>
+    <button onclick="navigatePage()">Dashboard</button>
     <h1>List of All Recipes</h1>
     <div id="recipes">
         <!-- Recipes will be inserted here -->
@@ -34,6 +35,10 @@
                     });
                 })
                 .catch(error => console.error(error));
+        }
+
+        function navigatePage(){
+            window.location.href = 'addRecipe.html';
         }
     </script>
 </body>

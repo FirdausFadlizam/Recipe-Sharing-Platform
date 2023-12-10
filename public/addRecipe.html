@@ -72,7 +72,7 @@
     </form>
 
     <script>
-        const currentUserId = '65748e945441b65b7455a7a0'; // replace this with logic to get current logged-in user's id
+        const currentUserId = sessionStorage.getItem('userId'); // replace this with logic to get current logged-in user's id
 
         function getRecipes() {
             fetch('http://localhost:3000/recipes')
@@ -270,7 +270,7 @@
 
         function submitRecipe() {
             const title = document.getElementById('title').value;
-            const user = document.getElementById('user').value;
+            const user = currentUserId;
             const ingredients = Array.from(document.getElementsByName('ingredient')).map(input => input.value);
             const instructions = Array.from(document.getElementsByName('instruction')).map(input => input.value);
 
