@@ -4,6 +4,11 @@
     font-family: 'Roboto', sans-serif;
 }
 
+header {
+    border-bottom: 5px solid black;
+    margin: 0;
+}
+
 body {
     position: relative;  /* <---- Add this property to your body CSS */
     width: 1000px;

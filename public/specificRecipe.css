@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    position: relative;  /* <---- Add this property to your body CSS */
+    width: 1000px;
+    margin: 0 auto;   /* Centers the body horizontally */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;   /* Adds a little space around the body's content */
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: #f4f4f4;   /* Gives the body a light grey background */
+    border: 5px solid black;
+    /*text-align: center; This has been moved to #mainContent */
+}
+
+button:hover{
+    opacity: 0.5;
+}
+
+button {
+    display: inline-block;  /* Sets the button to only take up as much space as it needs */
+    margin: 20px 0;   /* Centers the button horizontally and adds a bit of vertical space */
+    padding: 10px 20px;   /* Adds a little space around the button's text */
+    background-color: #333;  /* Makes the button dark grey */
+    color: #fff;  /* Makes the button's text white */
+    border: none;  /* Removes the button's default border */
+    cursor: pointer;  /* Changes the cursor when hovering over the button */
+    text-align: center; /* Center align the text inside the button */
+}
+
+img {
+    
+    width: 500px;
+    height: auto;   /* Modifies height to auto to maintain image aspect ratio */
+    margin: 20px auto;   /* Centers the image horizontally and adds a bit of vertical space */
+    margin-left: 0;
+    display: block;   /* Allows for centering with auto margin */
+}
+
+#recipeDetails {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;
+    justify-content: center;
+    text-align: center; */
+}
+
+ul, ol {
+    list-style-position: inside; 
+    padding: 20px;
+    padding-top: 0;
+    border-radius: 8px;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+li {
+    padding: 10px;
+}
+
+input[type=text] {
+    width: 70%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid black;
+    background: white;
+    height: 20px;
+    margin-right: 20px;
+}
+
+h1, h2, h3, p {
+margin-bottom: 15px;
+}
+  
+#comment_feed, #favButton, #removeFavButton {
+    margin-top: 30px;
+}
+
+#comment_feed {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid #000;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Optional: Adds a mild shadow to give a 'lifting' effect */
+}
+
+#comment_feed p {
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.commentWrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#del_comment {
+    background-color: #333;
+    color: #fff; /* white */
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-left: 10px;
+}

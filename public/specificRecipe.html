@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe</title>
+    <link rel="stylesheet" href="specificRecipe.css">
 </head>
 
 <body>
     <button onclick="navigatePage()">Main Page</button>
     <h1>Recipe Details</h1>
-    <div id="favButton" style="display:block"><button id="favoriteRecipe" onclick="addFav()">Save this recipe</button></div>
-    <div id="removeFavButton" style="display:none"><button id="removeFavoriteRecipe"  onclick="deleteFav()">Remove this recipe</button></div>
     <div id="recipeDetails"></div>
+    <div id="favButton" style="display:block"><button id="favoriteRecipe" onclick="addFav()">Add to Favorite</button></div>
+    <div id="removeFavButton" style="display:none"><button id="removeFavoriteRecipe"  onclick="deleteFav()">Remove from Favorite</button></div>
     <!-- Comment -->
     <input type="text" id="comment" placeholder="Add a comment"></input>
     <button id="comment_btn" onclick="addComment()">Submit</button>
@@ -33,22 +34,54 @@
                     // comment
                     const commentDiv = document.getElementById('comment_feed');
 
+                    const imageFile = document.createElement('img');
+                    imageFile.src = recipe.image;
+                    recipeDiv.appendChild(imageFile);
 
                     const title = document.createElement('h2');
                     title.textContent = `Title: ${recipe.title}`;
                     recipeDiv.appendChild(title);
 
-                    const ingredients = document.createElement('p');
-                    ingredients.textContent = `Ingredients: ${recipe.ingredients.join(", ")}`;
-                    recipeDiv.appendChild(ingredients);
+                    // const ingredients = document.createElement('p');
+                    // ingredients.textContent = `Ingredients: ${recipe.ingredients.join(", ")}`;
+                    // recipeDiv.appendChild(ingredients);
+                    const ingredientsTitle = document.createElement('h3');
+                    ingredientsTitle.textContent = "Ingredients:";
+                    recipeDiv.appendChild(ingredientsTitle);
 
-                    const instructions = document.createElement('p');
-                    instructions.textContent = `Instructions: ${recipe.instructions.join(". ")}`;
-                    recipeDiv.appendChild(instructions);
+                    const ingredientsList = document.createElement('ul');
+                    recipe.ingredients.forEach(ingredient => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = ingredient;
+                        ingredientsList.appendChild(listItem);
+                    });
+                    recipeDiv.appendChild(ingredientsList);
+
+                    // const instructions = document.createElement('p');
+                    // instructions.textContent = `Instructions: ${recipe.instructions.join(". ")}`;
+                    // recipeDiv.appendChild(instructions);
+                    const instructionsTitle = document.createElement('h3');
+                    instructionsTitle.textContent = "Instructions:";
+                    recipeDiv.appendChild(instructionsTitle);
+
+                    const instructionsList = document.createElement('ol'); //ordered list for instructions
+                    recipe.instructions.forEach(instruction => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = instruction;
+                        instructionsList.appendChild(listItem);
+                    });
+                    recipeDiv.appendChild(instructionsList);
 
                     recipe.comments.forEach(comments => {
                         const commentFeed = document.createElement('p');
                         commentFeed.id = `comment_${comments._id}`;
+
+                        const commentWrapper = document.createElement('div');
+                        commentWrapper.setAttribute('class', 'commentWrapper');
+
+
+
+                        
                         const delComment = document.createElement('button');
                         delComment.textContent = "Delete";
                         delComment.id = "del_comment";
@@ -59,9 +92,12 @@
                             commentFeed.textContent = `${user.fName} ${user.lName}: ${comments.commentText}`;
                         })
                         .catch(error => console.error(error));
-                        commentDiv.appendChild(commentFeed);
+                        commentWrapper.appendChild(commentFeed);
+                        // commentDiv.appendChild(commentFeed);
                         if(comments.user == sessionStorage.getItem('userId'))
-                        commentDiv.appendChild(delComment);
+                            commentWrapper.appendChild(delComment);
+                            // commentDiv.appendChild(delComment);
+                        commentDiv.appendChild(commentWrapper);
                     });
                 })
                 .catch(error => console.error(error));
