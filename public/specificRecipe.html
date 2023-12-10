@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe</title>
+</head>
+<body>
+    <h1>Recipe Details</h1>
+    <div id="recipeDetails"></div>
+
+    <script>
+      window.onload = function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const id = urlParams.get('id');
+          fetch(`http://localhost:3000/recipes/${id}`)
+            .then(response => response.json())
+            .then(recipe => {
+                const recipeDiv = document.getElementById('recipeDetails');
+            
+                const title = document.createElement('h2');
+                title.textContent = `Title: ${recipe.title}`;
+                recipeDiv.appendChild(title);
+
+                const ingredients = document.createElement('p');
+                ingredients.textContent = `Ingredients: ${recipe.ingredients.join(", ")}`;
+                recipeDiv.appendChild(ingredients);
+
+                const instructions = document.createElement('p');
+                instructions.textContent = `Instructions: ${recipe.instructions.join(". ")}`;
+                recipeDiv.appendChild(instructions);
+            })
+            .catch(error => console.error(error));
+      }
+    </script>
+
+</body>
+</html>
