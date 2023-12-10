@@ -21,10 +21,18 @@ const recipeSchema = mongoose.Schema(
             type: Schema.Types.ObjectID,
             ref: "User",
             required: true
-        }
-        
-    }, 
-    
+        },
+        comments: [{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+            commentText: {
+                type: String,
+            },
+        }]
+    },
+
     {
         timestamps: true
     });//end of recipe schema prototype/object
