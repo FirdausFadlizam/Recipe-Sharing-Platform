@@ -29,6 +29,9 @@
 
     <h1>Your Recipes</h1>
     <div id="userRecipes"></div>
+    <hr/>
+    <h1>Favorite Recipes</h1>
+    <div id="userFavRecipes"></div>
 
     <hr />
     <form id="updateForm" style="display: none">
@@ -318,6 +321,30 @@
                 .catch(err => console.error(err));
         }
 
+        function getFavRecipes(){
+            fetch(`http://localhost:3000/getFavRecipes?user=${currentUserId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const recipesDiv = document.getElementById('userFavRecipes');
+                    data.forEach(recipe => {
+                        const recipeParagraph = document.createElement('p');
+                        recipeParagraph.textContent = `Title: ${recipe.title}`; //Display only title here
+
+                        const viewButton = document.createElement('button');
+                        viewButton.textContent = 'View Recipe';
+                        // Allows the button to redirect to specificRecipe.html with the recipe id as a query parameter
+                        viewButton.onclick = function() { 
+                            window.location.href = `specificRecipe.html?id=${recipe._id}`;
+                            
+                        };
+
+                        recipesDiv.appendChild(recipeParagraph);
+                        recipesDiv.appendChild(viewButton);
+                        
+                    });
+                })
+                .catch(error => console.error(error));   
+        }
 
         window.onload = function () {
             document.getElementById('recipeForm').addEventListener('submit', function (event) {
@@ -325,6 +352,7 @@
                 submitRecipe();
             });
             getRecipes();
+            getFavRecipes();
         }
     </script>
 </body>

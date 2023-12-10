@@ -7,12 +7,14 @@
 </head>
 <body>
     <h1>Recipe Details</h1>
+    <button id="favoriteRecipe" onclick="addFav()">Save this recipe</button>
     <div id="recipeDetails"></div>
 
     <script>
+        var id;
       window.onload = function() {
           const urlParams = new URLSearchParams(window.location.search);
-          const id = urlParams.get('id');
+          id = urlParams.get('id');
           fetch(`http://localhost:3000/recipes/${id}`)
             .then(response => response.json())
             .then(recipe => {
@@ -32,6 +34,29 @@
             })
             .catch(error => console.error(error));
       }
+
+      function addFav(){
+        const favRecipe = {
+            user: sessionStorage.getItem('userId'),
+            recipe: id
+        }
+        fetch('/addFavRecipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(favRecipe)
+            })
+                .then(response => response.text())
+                .then(text => {
+                    console.log(text);
+
+                    // call getRecipes to update the recipe list
+                    location.reload();
+                })
+                .catch(error => console.error(error));
+            
+            }
     </script>
 
 </body>

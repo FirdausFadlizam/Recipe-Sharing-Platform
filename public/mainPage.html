@@ -26,7 +26,8 @@
                         viewButton.textContent = 'View Recipe';
                         // Allows the button to redirect to specificRecipe.html with the recipe id as a query parameter
                         viewButton.onclick = function() { 
-                            window.location.href = `specificRecipe.html?id=${recipe._id}`; 
+                            window.location.href = `specificRecipe.html?id=${recipe._id}`;
+                            
                         };
 
                         recipesDiv.appendChild(recipeParagraph);

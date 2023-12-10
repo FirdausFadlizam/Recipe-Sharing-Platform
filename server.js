@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const Recipe = require('./models/recipeModel');
 const User = require('./models/loginModel');
+const favRecipe = require('./models/favRecipeModel');
 const cors = require('cors');
 
 app.use(cors({origin: '*'}));
@@ -86,6 +87,31 @@ app.post("/createRecipe", async (req, res) => {
     }
 });
 
+app.post("/addFavRecipe", async (req, res) => {
+    try {
+        const recipe = await favRecipe.create(req.body);
+
+        res.status(200).json(recipe);
+    }
+    catch(error){
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+});
+
+app.get('/getFavRecipes', async (req, res) => {
+    try {
+        const{user} = req.query;
+        const favRecipes = await favRecipe.find({user});
+        const recipeIds = favRecipes.map(fav => fav.recipe);
+        
+        const recipes = await Recipe.find({ _id: { $in: recipeIds } });
+
+        res.json(recipes);
+    } catch (error) {
+        res.status(500).json({ error: error.toString() });
+    }
+});
 
 app.delete("/deleteRecipe/:id", async (req, res) => {
     try {
