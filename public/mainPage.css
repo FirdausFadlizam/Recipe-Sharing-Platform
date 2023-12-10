@@ -22,7 +22,7 @@ body {
 }
 
 img {
-    width: 500px;
+    width: 300px;
     height: auto;   /* Modifies height to auto to maintain image aspect ratio */
     margin: 20px auto;   /* Centers the image horizontally and adds a bit of vertical space */
     display: block;   /* Allows for centering with auto margin */
