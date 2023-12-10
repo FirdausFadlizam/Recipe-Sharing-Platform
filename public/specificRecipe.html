@@ -60,6 +60,7 @@
                         })
                         .catch(error => console.error(error));
                         commentDiv.appendChild(commentFeed);
+                        if(comments.user == sessionStorage.getItem('userId'))
                         commentDiv.appendChild(delComment);
                     });
                 })
