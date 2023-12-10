@@ -13,6 +13,12 @@
     <div id="favButton" style="display:block"><button id="favoriteRecipe" onclick="addFav()">Save this recipe</button></div>
     <div id="removeFavButton" style="display:none"><button id="removeFavoriteRecipe"  onclick="deleteFav()">Remove this recipe</button></div>
     <div id="recipeDetails"></div>
+    <!-- Comment -->
+    <input type="text" id="comment" placeholder="Add a comment"></input>
+    <button id="comment_btn" onclick="addComment()">Submit</button>
+    <div id="comment_feed">
+        <h3>Comments:</h3>
+    </div>
 
     <script>
         var id;
@@ -24,6 +30,9 @@
                 .then(response => response.json())
                 .then(recipe => {
                     const recipeDiv = document.getElementById('recipeDetails');
+                    // comment
+                    const commentDiv = document.getElementById('comment_feed');
+
 
                     const title = document.createElement('h2');
                     title.textContent = `Title: ${recipe.title}`;
@@ -36,6 +45,23 @@
                     const instructions = document.createElement('p');
                     instructions.textContent = `Instructions: ${recipe.instructions.join(". ")}`;
                     recipeDiv.appendChild(instructions);
+
+                    recipe.comments.forEach(comments => {
+                        const commentFeed = document.createElement('p');
+                        commentFeed.id = `comment_${comments._id}`;
+                        const delComment = document.createElement('button');
+                        delComment.textContent = "Delete";
+                        delComment.id = "del_comment";
+                        delComment.onclick = () => deleteComment(comments._id);
+                        fetch(`http://localhost:3000/user/${comments.user}`)
+                        .then(response => response.json())
+                        .then(user => {
+                            commentFeed.textContent = `${user.fName} ${user.lName}: ${comments.commentText}`;
+                        })
+                        .catch(error => console.error(error));
+                        commentDiv.appendChild(commentFeed);
+                        commentDiv.appendChild(delComment);
+                    });
                 })
                 .catch(error => console.error(error));
                 
@@ -112,6 +138,41 @@
                 })
                 .catch(error => console.error(error));
 
+        }
+
+        function addComment() {
+            const url = `http://localhost:3000/recipes/${id}/addComment`;
+            const comment = document.getElementById("comment").value;
+            const commentFeed = document.getElementById("comment_feed");
+            const userId = sessionStorage.getItem('userId');
+
+            const fetchObject = {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({ commentText: comment, userId: userId }),
+            };
+
+            fetch(url, fetchObject)
+                .then(response => response.json())
+                .then(commentData => {
+                    commentFeed.innerHTML += "Comment successfully posted.";
+                    location.reload();
+                })
+                .catch(error => console.error(error));
+        }
+
+        function deleteComment(commentId) {
+            fetch(`http://localhost:3000/recipes/${id}/deleteComment/${commentId}`, {
+                method: 'PUT',
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                location.reload();
+            })
+            .catch(error => console.error(error));
         }
 
         function navigatePage() {

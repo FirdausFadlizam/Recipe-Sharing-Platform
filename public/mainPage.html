@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mainPage.css">
     <title>Recipe Sharing Platform</title>
 </head>
 <body>
-    <button onclick="navigatePage()">Dashboard</button>
-    <div id="user">
+    <button id="dashboardButton" onclick="navigatePage()">Dashboard</button>
+    <button id="logoutButton" onclick="logout()">Logout</button>
+    <div id="mainContent">
+    <div id="userDiv">
         <h1 id="userName"></h1>
     </div>
     <h1>List of All Recipes</h1>
     <div id="recipes">
         <!-- Recipes will be inserted here -->
+    </div>
     </div>
 
     <script>
@@ -25,21 +29,34 @@
                 .then(data => {
                     const recipesDiv = document.getElementById('recipes');
                     data.forEach(recipe => {
+                        // Create div for each recipe
+                        const oneRecipe = document.createElement('div');
+                        oneRecipe.setAttribute('class', 'eachRecipe');
+                        
+                        const imageDiv = document.createElement('div');
+                        imageDiv.setAttribute('class', 'imageDiv');
+                        const imageFile = document.createElement('img');
+                        imageFile.src = recipe.image;
+                        imageDiv.appendChild(imageFile);
+                        
+                        const contentDiv = document.createElement('div');
+                        contentDiv.setAttribute('class', 'contentDiv');
                         const recipeParagraph = document.createElement('p');
                         recipeParagraph.textContent = `Title: ${recipe.title}` ; //Display only title here
                         const viewButton = document.createElement('button');
                         viewButton.textContent = 'View Recipe';
+
                         // Allows the button to redirect to specificRecipe.html with the recipe id as a query parameter
                         viewButton.onclick = function() { 
                             window.location.href = `specificRecipe.html?id=${recipe._id}`;
-                            
                         };
-                        const imageFile = document.createElement('img');
-                        imageFile.src = recipe.image;
-                        recipesDiv.appendChild(imageFile);
-                        recipesDiv.appendChild(recipeParagraph);
-                        recipesDiv.appendChild(viewButton);
-                        
+                        contentDiv.appendChild(recipeParagraph);
+                        contentDiv.appendChild(viewButton);
+
+                        oneRecipe.appendChild(imageDiv);
+                        oneRecipe.appendChild(contentDiv);
+
+                        recipesDiv.appendChild(oneRecipe);
                     });
                 })
                 .catch(error => console.error(error));
@@ -47,6 +64,11 @@
 
         function navigatePage(){
             window.location.href = 'addRecipe.html';
+        }
+
+        function logout(){
+            sessionStorage.clear();
+            window.location.href = 'login.html';
         }
     </script>
 </body>

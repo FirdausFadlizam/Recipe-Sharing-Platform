@@ -1,0 +1,81 @@
+* {
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    position: relative;  /* <---- Add this property to your body CSS */
+    width: 1000px;
+    margin: 0 auto;   /* Centers the body horizontally */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;   /* Adds a little space around the body's content */
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: #f4f4f4;   /* Gives the body a light grey background */
+    border: 5px solid black;
+    /*text-align: center; This has been moved to #mainContent */
+}
+
+#mainContent {
+    text-align: center; /* move center alignment to this new div, from body */
+    width: 100%; /* takes entire width */
+}
+
+img {
+    width: 500px;
+    height: auto;   /* Modifies height to auto to maintain image aspect ratio */
+    margin: 20px auto;   /* Centers the image horizontally and adds a bit of vertical space */
+    display: block;   /* Allows for centering with auto margin */
+}
+
+.imageDiv {
+    flex: 40%; /* Allow imageDiv to take up 40% of the space */
+}
+
+.contentDiv {
+    flex: 60%; /* Allow contentDiv to take up 60% of the space */
+    text-align: left; /* Aligns the text to the left */
+    display: flex;
+    flex-direction: column; /* Makes the div contents stack vertically */
+    justify-content: center; /* Centers the contents vertically */
+    align-items: flex-start; /* Added this line */
+    padding-left: 20px; /* Adds space to the left of the contents */
+}
+
+button {
+    display: inline-block;  /* Sets the button to only take up as much space as it needs */
+    margin: 20px 0;   /* Centers the button horizontally and adds a bit of vertical space */
+    padding: 10px 20px;   /* Adds a little space around the button's text */
+    background-color: #333;  /* Makes the button dark grey */
+    color: #fff;  /* Makes the button's text white */
+    border: none;  /* Removes the button's default border */
+    cursor: pointer;  /* Changes the cursor when hovering over the button */
+    text-align: center; /* Center align the text inside the button */
+}
+
+.eachRecipe {
+    display: flex;  /* Changes .eachRecipe to flex display */
+    justify-content: space-between; /* Adds space between the image and the content */
+    margin-bottom: 50px; /* Adds space below each recipe */
+}
+
+#dashboardButton {
+    display: inline-block;    /* Changes the button to inline so we're not centering it */
+    margin: 20px 0;           /* Space at the top and bottom but none on the sides */
+    padding: 10px 20px;       /* Space inside the button around the text */
+    background-color: #007BFF; /* Let's make it blue */
+    color: #fff;              /* White text */
+    border: none;             /* No border */
+    text-align: left;         /* Aligns the text to the left */
+    cursor: pointer;          /* Changes the cursor when hovering over the button */
+    
+}
+
+#logoutButton {
+    margin-left: 10px;
+    background-color: red;
+    color: white;
+    border: none;             /* No border */
+    text-align: left;         /* Aligns the text to the left */
+    cursor: pointer;          /* Changes the cursor when hovering over the button */
+}

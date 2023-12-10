@@ -1,0 +1,17 @@
+* {
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    position: relative;  /* <---- Add this property to your body CSS */
+    width: 1000px;
+    margin: 0 auto;   /* Centers the body horizontally */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;   /* Adds a little space around the body's content */
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: #f4f4f4;   /* Gives the body a light grey background */
+    border: 5px solid black;
+    /*text-align: center; This has been moved to #mainContent */
+}

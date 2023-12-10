@@ -160,6 +160,83 @@ app.put('/updateRecipes/:id', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.get('/user/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({
+            fName: user.fName,
+            lName: user.lName
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.put('/recipes/:id/addComment', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { commentText, userId } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: 'Invalid recipe ID' });
+        }
+
+        const user = await User.findById(userId); // Fetch user details
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const updatedRecipe = await Recipe.findByIdAndUpdate(
+            id,
+            { $push: { comments: { user: userId, commentText: commentText } } },
+            { new: true }
+        ).populate('comments.user', 'fName lName');
+
+        if (!updatedRecipe) {
+            return res.status(404).json({ error: 'Recipe not found' });
+        }
+
+        const latestComment = updatedRecipe.comments[updatedRecipe.comments.length - 1];
+
+        res.status(200).json({ userName: `${user.fName} ${user.lName}`, commentText: latestComment.commentText });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+app.put('/recipes/:id/deleteComment/:commentId', async (req, res) => {
+    try {
+        const { id, commentId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id) || !mongoose.Types.ObjectId.isValid(commentId)) {
+            return res.status(400).json({ error: 'Invalid IDs' });
+        }
+
+        const updatedRecipe = await Recipe.findByIdAndUpdate(
+            id,
+            { $pull: { comments: { _id: commentId } } },
+            { new: true }
+        );
+
+        if (!updatedRecipe) {
+            return res.status(404).json({ error: 'Comment not found' });
+        }
+
+        res.status(200).json({message: "Comment deleted successfully"});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ message: error.message });
+    }
+});
   
 //Mongoose connection
 mongoose.connect('mongodb+srv://user:pa55word@cis435-project4-cluster.msmyrbb.mongodb.net/Node-API')

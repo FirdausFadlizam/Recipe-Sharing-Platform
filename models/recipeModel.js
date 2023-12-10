@@ -25,7 +25,16 @@ const recipeSchema = mongoose.Schema(
         image: {
             type: String,
             required: true
-        }
+        },
+        comments: [{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+            commentText: {
+                type: String,
+            },
+        }]
         
     }, 
     
