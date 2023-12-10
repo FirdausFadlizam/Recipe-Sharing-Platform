@@ -53,6 +53,11 @@ button {
     text-align: center; /* Center align the text inside the button */
 }
 
+button:hover{
+   opacity: 0.5;
+}
+
+
 .eachRecipe {
     display: flex;  /* Changes .eachRecipe to flex display */
     justify-content: space-between; /* Adds space between the image and the content */
