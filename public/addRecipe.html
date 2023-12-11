@@ -27,6 +27,10 @@
 </head>
 
 <body>
+    <header>
+        <h1 id="header">TasteBook Recipe Sharing</h1>
+    </header>    
+    <div id="container">
     <button onclick="navigatePage()" id="mainBtn">Main Page</button>
     <h1>Your Recipes</h1>
     <div id="userRecipes"></div>
@@ -82,6 +86,11 @@
         <h1>Favorite Recipes</h1>
         <ul id="userFavRecipes"></ul>
         <br>
+    </div>
+        <footer>
+            <h5 id="footer">&copy TasteBook, 2023.</h5>
+        </footer>
+    
   
 
     <script>
@@ -186,7 +195,6 @@
 
         function updateRecipe(recipeID, title, ingredients, instructions, image) {
             document.getElementById('updateFormDiv').style.display = "block";
-            document.getElementById('updateHLabel').style.display = "block";
             var recipeForm = document.getElementById('updateForm');
             recipeForm.style.display = "block";
             document.getElementById('updateIngredients').innerHTML = "";
