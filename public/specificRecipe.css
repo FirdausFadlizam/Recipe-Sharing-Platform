@@ -4,12 +4,42 @@
     font-family: 'Roboto', sans-serif;
 }
 
+html {
+    background-image: url('images/wallpaper.jpg');
+    background-repeat: repeat;
+}
+
 body {
+    margin: 0;
+}
+
+header {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    /* margin-top: 20px; */
+    padding-top: 20px;
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: black;
+    border: 5px solid black;
+    border-bottom: none;
+}
+
+#header {
+    margin-bottom: 0;
+    color: white;
+}
+
+#container {
     position: relative;  /* <---- Add this property to your body CSS */
     width: 1000px;
     margin: 0 auto;   /* Centers the body horizontally */
-    margin-top: 20px;
-    margin-bottom: 20px;
     padding-top: 20px;   /* Adds a little space around the body's content */
     padding-left: 80px;
     padding-right: 80px;
@@ -17,6 +47,31 @@ body {
     border: 5px solid black;
     /*text-align: center; This has been moved to #mainContent */
 }
+
+footer {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    /* margin-bottom: 20px; */
+    padding-top: 20px;
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: black;
+    border: 5px solid black;
+    border-top: none;
+}
+
+#footer {
+    margin-top: 0;
+    color: white;
+}
+
+
 
 button:hover{
     opacity: 0.5;
@@ -32,6 +87,7 @@ button {
     cursor: pointer;  /* Changes the cursor when hovering over the button */
     text-align: center; /* Center align the text inside the button */
 }
+
 
 img {
     
@@ -98,7 +154,7 @@ margin-bottom: 15px;
 .commentWrapper {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 0px;
     border-bottom: 1px solid #ddd;
 }
 

@@ -4,23 +4,71 @@
     font-family: 'Roboto', sans-serif;
 }
 
-header {
-    border-bottom: 5px solid black;
-    margin: 0;
+html {
+    background-image: url('images/wallpaper.jpg');
+    background-repeat: repeat;
 }
 
 body {
+    margin: 0;
+}
+
+header {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    /* margin-top: 20px; */
+    padding-top: 20px;
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: black;
+    border: 5px solid black;
+    border-bottom: none;
+}
+
+#header {
+    margin-bottom: 0;
+    color: white;
+}
+
+#container {
     position: relative;  /* <---- Add this property to your body CSS */
     width: 1000px;
     margin: 0 auto;   /* Centers the body horizontally */
-    margin-top: 20px;
-    margin-bottom: 20px;
     padding-top: 20px;   /* Adds a little space around the body's content */
     padding-left: 80px;
     padding-right: 80px;
     background-color: #f4f4f4;   /* Gives the body a light grey background */
     border: 5px solid black;
     /*text-align: center; This has been moved to #mainContent */
+}
+
+footer {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    /* margin-bottom: 20px; */
+    padding-top: 20px;
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: black;
+    border: 5px solid black;
+    border-top: none;
+}
+
+#footer {
+    margin-top: 0;
+    color: white;
 }
 
 #mainContent {
@@ -47,6 +95,10 @@ img {
     justify-content: center; /* Centers the contents vertically */
     align-items: flex-start; /* Added this line */
     padding-left: 20px; /* Adds space to the left of the contents */
+}
+
+.contentDiv p {
+    font-size:x-large;
 }
 
 button {
@@ -91,3 +143,4 @@ button:hover{
     text-align: left;         /* Aligns the text to the left */
     cursor: pointer;          /* Changes the cursor when hovering over the button */
 }
+

@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="mainPage.css">
     <title>Recipe Sharing Platform</title>
+    <script src="https://kit.fontawesome.com/2c4b6f2b7b.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
         <h1 id="header">TasteBook Recipe Sharing</h1>
     </header>
-    
-    <button id="dashboardButton" onclick="navigatePage()">Dashboard</button>
-    <button id="logoutButton" onclick="logout()">Logout</button>
+
+    <div id="container">
+    <button id="dashboardButton" onclick="navigatePage()"><i class="fa-solid fa-user"></i> Dashboard</button>
+    <button id="logoutButton" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
     <div id="mainContent">
     <div id="userDiv">
         <h1 id="userName"></h1>
@@ -22,9 +24,10 @@
         <!-- Recipes will be inserted here -->
     </div>
     </div>
+    </div>
 
     <footer>
-        &copy TasteBook, 2023.
+        <h5 id="footer">&copy TasteBook, 2023.</h5>
     </footer>
 
     <script>

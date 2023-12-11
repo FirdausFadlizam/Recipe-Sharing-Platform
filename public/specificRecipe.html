@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe</title>
     <link rel="stylesheet" href="specificRecipe.css">
+    <script src="https://kit.fontawesome.com/2c4b6f2b7b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <button onclick="navigatePage()">Main Page</button>
+    <header>
+        <h1 id="header">TasteBook Recipe Sharing</h1>
+    </header>
+
+    <div id="container">
+    <button onclick="navigatePage()"><i class="fa-solid fa-house"></i> Main Page</button>
     <h1>Recipe Details</h1>
     <div id="recipeDetails"></div>
     <div id="favButton" style="display:block"><button id="favoriteRecipe" onclick="addFav()">Add to Favorite</button></div>
@@ -20,6 +26,11 @@
     <div id="comment_feed">
         <h3>Comments:</h3>
     </div>
+    </div>
+
+    <footer>
+        <h5 id="footer">&copy TasteBook, 2023.</h5>
+    </footer>
 
     <script>
         var id;
