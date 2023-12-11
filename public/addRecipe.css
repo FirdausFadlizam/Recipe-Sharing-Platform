@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Shantell+Sans&display=swap');
 
 * {
     font-family: 'Roboto', sans-serif;
@@ -16,4 +17,314 @@ body {
     background-color: #f4f4f4;   /* Gives the body a light grey background */
     border: 5px solid black;
     /*text-align: center; This has been moved to #mainContent */
+}
+
+ul{
+    width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+  ul li{
+    transform: rotate(-5deg);
+    list-style:none;
+    text-decoration:none;
+    color:#000;
+    background-color: #f1b7a4;
+    display:block;
+    height:8em;
+    width:8em;
+    padding:1em;
+    box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+    margin:1em;
+  }
+  
+  ul li:nth-child(even){
+    transform:rotate(4deg);
+    position:relative;
+    top:5px;
+  }
+  ul li:nth-child(3n){
+    transform:rotate(-3deg);
+    position:relative;
+    top:-5px;
+  }
+  ul li:nth-child(5n){
+    transform:rotate(5deg);
+    position:relative;
+    top:-10px;
+  }
+  
+  ul li:hover,ul li:focus{
+    box-shadow:10px 10px 7px rgba(0,0,0,.7);
+    transform: scale(1.25);
+    position:relative;
+    z-index:5;
+  }
+  
+  ul li{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: small;
+    margin-bottom: 0%;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Shantell Sans', cursive;
+    font-weight: 600;
+  }
+
+  #viewBtn{
+    align-self: center;
+    margin-top: 20px;
+    width: 60px;
+    border: none;
+    font-size: smaller;
+    cursor: pointer;
+  }
+
+  button{
+    display: inline-block;    /* Changes the button to inline so we're not centering it */
+    margin: 0 auto;           /* Space at the top and bottom but none on the sides */
+    background-color: #000000; /* Let's make it blue */
+    color: #fff;              /* White text */
+    border: none;             /* No border */
+    text-align: left;         /* Aligns the text to the left */
+    cursor: pointer;
+    text-align: center;     
+    margin-left: 10px;  
+    height: 25px;
+    width: 60px; 
+  }
+
+ 
+button:hover{
+    opacity: 0.5;
+}
+
+#recipeImg{
+        align-self: flex-center;
+        width: 150px;
+        height: auto;   /* Modifies height to auto to maintain image aspect ratio */
+        margin: 20px;   /* Centers the image horizontally and adds a bit of vertical space */
+        display: block;   /* Allows for centering with auto margin */
+        
+    
+}
+
+#recipeCont{
+ display: inline-flex;
+ border: 1px solid rgb(228, 198, 198);  
+ border-top-right-radius: 40px;
+ border-top-left-radius: 10px;
+ border-bottom-left-radius: 60px;
+ border-bottom-right-radius: 20px;
+ padding: 10px;
+ width: 450px;
+ height: auto;
+ margin-bottom: 10px;
+ margin-left: 20px;
+ background-color: white;
+ box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+
+}
+
+#recipeCont:nth-child(even){
+    display: inline-flex; 
+    border-top-right-radius: 10px;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 60px;
+    padding: 10px;
+    width: 450px;
+    height: auto;
+    margin-bottom: 10px;
+    margin-left: 20px;
+   
+   }
+
+
+
+#recipeText{
+    font-size: smaller;
+    padding-left: 20px;
+    padding-right: 20px;
+    
+}
+
+#titleLabel{
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#userRecipes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch; 
+}
+
+
+
+#editBtn, #deleteBtn {
+    display: inline-block;    /* Changes the button to inline so we're not centering it */
+    margin: 20px 0;           /* Space at the top and bottom but none on the sides */
+    background-color: #000000; /* Let's make it blue */
+    color: #fff;              /* White text */
+    border: none;             /* No border */
+    text-align: left;         /* Aligns the text to the left */
+    cursor: pointer;
+    text-align: center;     
+    margin-left: 10px;  
+    height: 30px;
+    width: 50px;   /* Changes the cursor when hovering over the button */
+    
+}
+
+#titleStyle{
+    font-family: cursive;
+    font-size: x-large;
+    font-variant: normal;
+    text-transform: capitalize;
+    position: relative;
+    top: 30px;
+}
+
+#recipeForm{
+    border: 1px solid rgb(228, 198, 198);
+    width: 400px;
+    padding-top: 10px;
+    padding-left: 10px;
+    box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+
+}
+
+#label{
+    
+}
+
+textarea{
+    width: 350px;
+    height: 20px;
+}
+
+#form{
+  display: flex;
+}
+
+
+#recipeForm{
+ padding-left: 5px;
+ padding-right: 5px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ border-radius: 10px;
+ border:  1px solid rgb(228, 198, 198); 
+ background-color: rgba(255, 254, 253, 0.8); ;
+ width: 450px;
+ display: flex;
+ flex-direction: column;
+}
+
+#updateForm{
+ padding-left: 5px;
+ padding-right: 5px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ border-radius: 10px;
+ border: solid 1px  rgb(228, 198, 198); 
+ background-color: rgba(255, 254, 253, 0.8); ;
+ width: 450px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+
+}
+#recipeForm{
+  align-self: flex-start;
+  margin-right: 50px;
+}
+
+#updateFormDiv{
+  margin-top: 0;
+}
+
+#createTitle{
+  float:left;
+  margin-right: 230px;
+}
+
+#RemoveButton{
+margin-top: 0px;
+margin-bottom: 10px;
+}
+
+#ingredients-0{
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+#submitBtn{
+  display: inline-block;    /* Changes the button to inline so we're not centering it */
+  margin: 0 auto;           /* Space at the top and bottom but none on the sides */
+  background-color: #000000; /* Let's make it blue */
+  color: #fff;              /* White text */
+  border: none;             /* No border */
+  text-align: left;         /* Aligns the text to the left */
+  cursor: pointer;
+  text-align: center;     
+  margin-left: 10px;  
+  height: 25px;
+  width: 100px;
+  margin-left: 150px;
+}
+#updateTitle{
+  margin-bottom: 10px;
+}
+
+#updateIngredients{
+  margin-bottom: 10px;
+}
+
+#updateInstructionLabel{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#imageLink2{
+  margin-top: 50px;
+  width: 300px;
+}
+
+#updateImageLink{
+  width: 430px;
+}
+
+#submitUpdate{
+  display: inline-block;    /* Changes the button to inline so we're not centering it */
+  margin-top: 30px;           /* Space at the top and bottom but none on the sides */
+  background-color: #000000; /* Let's make it blue */
+  color: #fff;              /* White text */
+  border: none;             /* No border */
+  text-align: left;         /* Aligns the text to the left */
+  cursor: pointer;
+  text-align: center;     
+  margin-left: 10px;  
+  height: 25px;
+  width: 100px;
+  margin-left: 150px;
+}
+
+#mainBtn {
+  width: 80px;
+  height: 50px;
+  display: inline-block;    /* Changes the button to inline so we're not centering it */
+  margin: 20px 0;           /* Space at the top and bottom but none on the sides */
+  padding: 10px 20px;       /* Space inside the button around the text */
+  background-color: #007BFF; /* Let's make it blue */
+  color: #fff;              /* White text */
+  border: none;             /* No border */
+  text-align: left;         /* Aligns the text to the left */
+  cursor: pointer;          /* Changes the cursor when hovering over the button */
+  
 }

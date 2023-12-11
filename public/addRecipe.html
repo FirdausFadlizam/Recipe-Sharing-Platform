@@ -27,33 +27,14 @@
 </head>
 
 <body>
-    <button onclick="navigatePage()">Main Page</button>
+    <button onclick="navigatePage()" id="mainBtn">Main Page</button>
     <h1>Your Recipes</h1>
     <div id="userRecipes"></div>
-    <hr/>
-    <h1>Favorite Recipes</h1>
-    <div id="userFavRecipes"></div>
 
-    <hr />
-    <form id="updateForm" style="display: none">
-        <label for="title">Recipe Title:</label><br>
-        <input type="text" id="updateTitle" value="Initial Value" required><br>
-        <label>Ingredients:</label><br>
-        <div id="updateIngredients">
-        </div>
-        <button type="button" onclick="addUpdateIngredientField()">Add Ingredient</button><br>
-        <label>Instructions:</label><br>
-        <div id="updateInstructionsDiv">
-        </div>
-        <button type="button" onclick="addUpdateInstructionField()">Add Instruction</button><br>
-        <input type="hidden" id="user" value="65748e945441b65b7455a7a0">
-        <label for="title">Image Link:</label><br>
-        <input type="text" id="updateImageLink" value="" required><br>
-        <input type="submit" onclick="" id="submitUpdate" value="Submit Recipe">
-    </form>
-    <hr />
 
-    <h1>Create a new recipe</h1>
+    <h1 id="createTitle">Create a New Recipe</h1>
+    <h1>Update a Recipe</h1>
+    <div id="form">
     <form id="recipeForm">
         <label for="title">Recipe Title:</label><br>
         <input type="text" id="title" required><br>
@@ -61,23 +42,47 @@
         <div id="ingredients">
             <div id="ingredient-0">
                 <input type="text" name="ingredient" required>
-                <button type="button" onclick="this.parentElement.remove()">Remove ingredient</button><br>
+                <button type="button" onclick="this.parentElement.remove()">Remove</button><br>
             </div>
         </div>
-        <button type="button" onclick="addIngredientField()">Add Ingredient</button><br>
+        <button type="button" onclick="addIngredientField()">Add</button><br>
         <label>Instructions:</label><br>
         <div id="instructionsDiv">
             <div id="instruction-0">
                 <textarea name="instruction" value="Initial Value" required></textarea>
-                <button type="button" onclick="this.parentElement.remove()">Remove instruction</button><br>
+                <button type="button" onclick="this.parentElement.remove()">Remove</button><br>
             </div>
         </div>
-        <button type="button" onclick="addInstructionField()">Add Instruction</button><br>
+        <button type="button" onclick="addInstructionField()">Add</button><br>
         <label for="title">Image Link:</label><br>
         <input type="text" id="imageLink" value="" required><br>
         <input type="hidden" id="user" value="65748e945441b65b7455a7a0">
-        <input type="submit" value="Create Recipe">
+        <input type="submit" id="submitBtn" value="Create Recipe">
     </form>
+
+    <div id="updateFormDiv" style="display:none">
+    <form id="updateForm"  style="display:none">
+        <label for="title">Recipe Title:</label><br>
+        <input type="text" id="updateTitle" value="Initial Value" required><br>
+        <label>Ingredients:</label><br>
+        <div id="updateIngredients">
+        </div>
+        <button type="button" onclick="addUpdateIngredientField()">Add</button><br>
+        <label id="updateInstructionLabel">Instructions:</label><br>
+        <div id="updateInstructionsDiv">
+        </div>
+        <button type="button" onclick="addUpdateInstructionField()">Add</button><br>
+        <input type="hidden" id="user" value="65748e945441b65b7455a7a0">
+        <label for="title" id="imageLink2">Image Link:</label><br>
+        <input type="text" id="updateImageLink" value="" required><br>
+        <input type="submit" onclick="" id="submitUpdate" value="Submit Recipe">
+    </form></div>
+
+</div>
+        <h1>Favorite Recipes</h1>
+        <ul id="userFavRecipes"></ul>
+        <br>
+  
 
     <script>
         const currentUserId = sessionStorage.getItem('userId'); // replace this with logic to get current logged-in user's id
@@ -95,24 +100,56 @@
 
                     data.forEach(recipe => {
                         if (recipe.user === currentUserId) {
-                            const recipeParagraph = document.createElement('p');
-                            let ingredients = recipe.ingredients.join(", ");
-                            let instructions = recipe.instructions.join(". ");
-                            recipeParagraph.textContent = `Title: ${recipe.title}, Ingredients: ${ingredients}, Instructions: ${instructions}, Image Link: ${recipe.image}`;
+                            const recipeContainer = document.createElement('div');
+                            recipeContainer.id = "recipeCont";
+                            const recipeParagraph = document.createElement('div');
+                            recipeParagraph.id = "recipeText";
+                            const recipeContainer2 = document.createElement('div');
+                            recipeContainer2.id = "recipeCont2";
+                            const recipeContainer3 = document.createElement('div');
+                            recipeContainer3.id = "recipeCont3";
+                            const title = document.createElement('h4');
+                    title.textContent = `Title:`;
+                    title.id = "titleLabel";
+                    const titleText = document.createElement('text');
+                    titleText.id = "titleStyle";
+                    titleText.textContent = recipe.title;
+                    recipeParagraph.appendChild(title);
+                    recipeParagraph.appendChild(titleText);
+                    const viewButton = document.createElement('button');
+                        viewButton.textContent = 'View';
+                        viewButton.id = "editBtn";
+                        // Allows the button to redirect to specificRecipe.html with the recipe id as a query parameter
+                        viewButton.onclick = function() { 
+                            window.location.href = `specificRecipe.html?id=${recipe._id}`;
+                            
+                        };
+                    
 
+                            const recipeImage = document.createElement('img');
+                            recipeImage.src = recipe.image;
+                            recipeImage.id = "recipeImg";
+                            
                             const editButton = document.createElement('button');
                             editButton.textContent = 'Edit';
+                            editButton.id = "editBtn";
                             editButton.onclick = function () {
                                 updateRecipe(recipe._id, recipe.title, recipe.ingredients, recipe.instructions,recipe.image);
                             };
 
                             const deleteButton = document.createElement('button');
                             deleteButton.textContent = 'Delete';
+                            deleteButton.id = "deleteBtn";
                             deleteButton.onclick = function () { deleteRecipe(recipe._id); };
 
-                            userRecipesDiv.appendChild(recipeParagraph);
-                            userRecipesDiv.appendChild(editButton);
-                            userRecipesDiv.appendChild(deleteButton);
+                            recipeContainer.appendChild(recipeImage);
+                            recipeContainer2.appendChild(viewButton);
+                            recipeContainer2.appendChild(editButton);
+                            recipeContainer2.appendChild(deleteButton);
+                            recipeContainer3.appendChild(recipeContainer2);
+                            recipeContainer3.appendChild(recipeParagraph);
+                            recipeContainer.appendChild(recipeContainer3);
+                            userRecipesDiv.appendChild(recipeContainer);
                         }
                     });
                 })
@@ -136,7 +173,7 @@
 
             const newButton = document.createElement('button');
             newButton.type = "button";
-            newButton.textContent = "Remove ingredient";
+            newButton.textContent = "Remove";
             newButton.onclick = function () {
                 document.getElementById(newDiv.id).remove();
             };
@@ -148,6 +185,8 @@
         }
 
         function updateRecipe(recipeID, title, ingredients, instructions, image) {
+            document.getElementById('updateFormDiv').style.display = "block";
+            document.getElementById('updateHLabel').style.display = "block";
             var recipeForm = document.getElementById('updateForm');
             recipeForm.style.display = "block";
             document.getElementById('updateIngredients').innerHTML = "";
@@ -220,7 +259,8 @@
 
             const newButton = document.createElement('button');
             newButton.type = "button";
-            newButton.textContent = "Remove ingredient";
+            newButton.textContent = "Remove";
+            newButton.id = "RemoveButton";
             newButton.onclick = function () {
                 document.getElementById(newDiv.id).remove();
             };
@@ -246,7 +286,7 @@
 
             const newButton = document.createElement('button');
             newButton.type = "button";
-            newButton.textContent = "Remove instruction";
+            newButton.textContent = "Remove";
             newButton.onclick = function () {
                 document.getElementById(newDiv.id).remove();
             };
@@ -269,7 +309,8 @@
 
             const newButton = document.createElement('button');
             newButton.type = "button";
-            newButton.textContent = "Remove instruction";
+            newButton.id = "RemoveButton";
+            newButton.textContent = "Remove";
             newButton.onclick = function () {
                 document.getElementById(newDiv.id).remove();
             };
@@ -339,19 +380,20 @@
                     const recipesDiv = document.getElementById('userFavRecipes');
                     let recipeId = [];
                     data.forEach(recipe => {
-                        const recipeParagraph = document.createElement('p');
-                        recipeParagraph.textContent = `Title: ${recipe.title}`; //Display only title here
+                        const recipeParagraph = document.createElement('li');
+                        recipeParagraph.textContent = `${recipe.title}`; //Display only title here
                         recipeId.push({id : recipe._id});
                         const viewButton = document.createElement('button');
                         viewButton.textContent = 'View Recipe';
+                        viewButton.id = "viewBtn";
                         // Allows the button to redirect to specificRecipe.html with the recipe id as a query parameter
                         viewButton.onclick = function() { 
                             window.location.href = `specificRecipe.html?id=${recipe._id}`;
                             
                         };
-
+                        recipeParagraph.appendChild(viewButton);
                         recipesDiv.appendChild(recipeParagraph);
-                        recipesDiv.appendChild(viewButton);
+                        
                         
                     });
 
