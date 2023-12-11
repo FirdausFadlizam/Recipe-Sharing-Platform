@@ -116,7 +116,7 @@ app.get('/getFavRecipes', async (req, res) => {
         const{user} = req.query;
         const favRecipes = await favRecipe.find({user});
         const recipeIds = favRecipes.map(fav => fav.recipe);
-        
+
         const recipes = await Recipe.find({ _id: { $in: recipeIds } });
 
         res.json(recipes);
@@ -149,11 +149,11 @@ app.put('/updateRecipes/:id', async (req, res) => {
         req.body,
         { new: true, runValidators: true }
       );
-  
+
       if (!updatedRecipe) {
         return res.status(404).json({ error: 'Recipe not found' });
       }
-  
+
       res.status(200).json(updatedRecipe);
     } catch (error) {
       console.error(error);
@@ -237,18 +237,15 @@ app.put('/recipes/:id/deleteComment/:commentId', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-  
+
 //Mongoose connection
 mongoose.connect('mongodb+srv://user:pa55word@cis435-project4-cluster.msmyrbb.mongodb.net/Node-API')
     .then(() => {
         console.log("Successfully connected to MongoDB!");
         app.listen(PORT, () => {
             console.log(`Node API app is running on port ${PORT}`);
-        })  
+        })
     })
     .catch((error) => {
         console.log(error);
     });
-
-
-
